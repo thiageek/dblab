@@ -2,9 +2,8 @@
 select pessoas.nome from pessoas
 left join alunos on alunos.pessoa_id = pessoas.id
 left join turmas on turmas.id = alunos.turma_id
-left join series on series.id = turmas.serie_id
-left join materias_series on materias_series.serie_id = series.id
-left join materias on materias.id = materias_series.materia_id
+left join materias_turmas on materias_turmas.turma_id = turmas.id
+left join materias on materias.id = materias_turmas.materia_id
 where materias.nome = 'Nome do Curso';
 
 -- Totais de funcionarios admitidos por ano
@@ -22,9 +21,9 @@ order by media desc
 limit 1;
 
 -- Quantidade de alunos atendidos por professor
-select pessoas.nome, count(alunos.id) from materias_series
-left join funcionarios on funcionarios.id = materias_series.professor_id
+select pessoas.nome, count(alunos.id) from materias_turmas
+left join funcionarios on funcionarios.id = materias_turmas.professor_id
 left join pessoas on pessoas.id = funcionarios.pessoa_id
-left join turmas on turmas.serie_id = materias_series.serie_id
+left join turmas on turmas.id = materias_turmas.turma_id
 left join alunos on alunos.turma_id = turmas.id
 group by professor_id;
